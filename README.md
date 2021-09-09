@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# CONVERT IMAGE TO BASE64   
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
