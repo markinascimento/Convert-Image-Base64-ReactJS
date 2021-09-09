@@ -1,23 +1,38 @@
-import logo from './logo.svg';
+import { useState } from 'react';
+
 import './App.css';
 
 function App() {
+
+  const [fileSelect, setFileSelect] = useState([]);
+  const [fileInBase64, setFileInBase64] = useState('');
+
+  const onFileChange = (e) => {
+    setFileSelect(e.target.files);
+    console.log(e.target.files);
+  };
+
+  const encodeFileInBase = (file) => {
+    const reader = new FileReader();
+
+    if(file){
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          const base64 = reader.result;
+          console.log(base64);
+          setFileInBase64(base64);
+        };
+        reader.onerror = (error) => console.log(error);
+    }
+  };
+
+  encodeFileInBase(fileSelect[0]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container-main">
+      <main className="box-content">
+        <input type="file" onChange={onFileChange}/>
+      </main>
     </div>
   );
 }
