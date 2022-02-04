@@ -4,29 +4,23 @@ import './App.css';
 
 function App() {
 
-  const [fileSelect, setFileSelect] = useState([]);
   const [fileInBase64, setFileInBase64] = useState('');
 
-  const onFileChange = (e) => {
-    setFileSelect(e.target.files);
-    console.log(e.target.files);
+  const onFileChange = async (e) => {
+    const file = e.target.files[0];
+    const inBase64 = await encodeFileInBase(file);
+    console.log(inBase64);
+    setFileInBase64(inBase64);
   };
 
   const encodeFileInBase = (file) => {
-    const reader = new FileReader();
-
-    if(file){
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          const base64 = reader.result;
-          console.log(base64);
-          setFileInBase64(base64);
-        };
-        reader.onerror = (error) => console.log(error);
-    }
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => resolve(fileReader.result);
+      fileReader.onerror = (error) => reject(error);
+    })
   };
-
-  encodeFileInBase(fileSelect[0]);
 
   return (
     <div className="container-main">
